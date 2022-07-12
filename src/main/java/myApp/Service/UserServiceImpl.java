@@ -1,7 +1,7 @@
 package myApp.Service;
 
-import myApp.DAO.UserDao;
 import myApp.Model.User;
+import myApp.Repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,37 +9,40 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
+    private UserRepo userRepo;
+
     @Autowired
-    UserDao userDao;
+    UserServiceImpl(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
 
     @Override
     @Transactional
     public void create(User user) {
-        userDao.save(user);
+        userRepo.save(user);
     }
 
     @Override
-    @Transactional
     public User read(long userId) {
-        return userDao.findById(userId);
+        return userRepo.findById(userId).orElse(null);
     }
 
     @Override
-    @Transactional
     public List<User> readAll() {
-        return userDao.findAll();
+        return userRepo.findAll();
     }
 
     @Override
     @Transactional
     public void update(User updateUser) {
-        userDao.update(updateUser);
+        userRepo.save(updateUser);
     }
 
     @Override
     @Transactional
     public void delete(long id) {
-        userDao.deleteById(id);
+        userRepo.deleteById(id);
     }
 }

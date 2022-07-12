@@ -1,29 +1,32 @@
 package myApp.Controller;
 
-import myApp.Service.UserService;
 import myApp.Model.User;
+import myApp.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 public class UserController {
 
-    @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @PostMapping("/")
+    @Autowired
+    UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    @PostMapping
     public String saveUser(@ModelAttribute("newUser") User newUser) {
         userService.create(newUser);
         return "redirect:/";
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String getAllUsers(Model model) {
         List<User> list = userService.readAll();
         model.addAttribute("users", list);
