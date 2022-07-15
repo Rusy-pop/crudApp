@@ -39,7 +39,7 @@
             <td th:utext="${user.getEmail()}"/>
             <td th:utext="${user.getAge()}"/>
             <td><a class="btn btn-success" th:href="@{/{id}(id=${user.getId()})}">edit</a></td>
-            <td><a class="btn btn-warning" th:href="@{delete/{id}(id=${user.getId()})}">delete</a></td>
+            <td><a class="btn btn-warning" th:href="@{/delete/{id}(id=${user.getId()})}">delete</a></td>
         </tr>
     </table>
 </div>

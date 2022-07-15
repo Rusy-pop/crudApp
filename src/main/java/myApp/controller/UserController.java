@@ -1,12 +1,10 @@
-package myApp.Controller;
+package myApp.controller;
 
-import myApp.Service.UserService;
-import myApp.Model.User;
+import myApp.service.UserService;
+import myApp.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,17 +13,17 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @PostMapping("/")
     public String saveUser(@ModelAttribute("newUser") User newUser) {
-        userService.create(newUser);
+        userService.createUser(newUser);
         return "redirect:/";
     }
 
     @GetMapping("/")
     public String getAllUsers(Model model) {
-        List<User> list = userService.readAll();
+        List<User> list = userService.readAllUsers();
         model.addAttribute("users", list);
         System.out.println(list);
         return "users";
@@ -34,7 +32,7 @@ public class UserController {
     @GetMapping("/{id}")
     public String getUser(@PathVariable(name = "id") long id,
                           Model model) {
-        model.addAttribute("user", userService.read(id));
+        model.addAttribute("user", userService.readUserById(id));
         return "update";
     }
 
@@ -43,13 +41,14 @@ public class UserController {
                              @PathVariable(name = "id") long id) {
         updateUser.setId(id);
         System.out.println(updateUser);
-        userService.update(updateUser);
+        userService.updateUser(updateUser);
         return "redirect:/";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteUser(@PathVariable(name = "id") long id) {
-        userService.delete(id);
+        User user = userService.readUserById(id);
+        userService.deleteUser(user);
         return "redirect:/";
     }
 }

@@ -1,4 +1,4 @@
-package myApp.Config;
+package myApp.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -46,7 +46,7 @@ public class JPAConfig {
         props.put("hibernate.hbm2ddl.auto", environment.getProperty("hibernate.hbm2ddl.auto"));
 
         entityManagerFactory.setJpaProperties(props);
-        entityManagerFactory.setPackagesToScan(new String[]{"myApp/Model"});
+        entityManagerFactory.setPackagesToScan(new String[]{"myApp/model"});
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         entityManagerFactory.setJpaVendorAdapter(vendorAdapter);
         return entityManagerFactory;

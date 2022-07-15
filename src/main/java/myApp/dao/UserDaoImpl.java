@@ -1,6 +1,6 @@
-package myApp.DAO;
+package myApp.dao;
 
-import myApp.Model.User;
+import myApp.model.User;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -15,29 +15,29 @@ public class UserDaoImpl implements UserDao {
     private EntityManager em;
 
     @Override
-    public void save(User user) {
+    public void saveUser(User user) {
         em.persist(user);
     }
 
     @Override
-    public User findById(long userId) {
+    public User findUserById(long userId) {
         Query query = em.createQuery("select u from User u where u.id = :userId", User.class);
         query.setParameter("userId", userId);
         return (User) query.getSingleResult();
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findAllUsers() {
         return em.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
-    public void update(User updateUser) {
+    public void updateUser(User updateUser) {
         em.merge(updateUser);
     }
 
     @Override
-    public void deleteById(Long userId) {
-        em.remove(findById(userId));
+    public void deleteUser(User user) {
+        em.remove(user);
     }
 }
